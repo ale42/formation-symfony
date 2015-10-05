@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - List computers
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Computer list</h1>
+    </div>
+<table class="table table-striped">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>IP</th>
+        <th>Enabled</th>
+    </tr>
+{% for computer in list_computer %}
+    <tr>
+        <td>{{ computer.id }}</td>
+        <td>{{ computer.name|computer_name }}</td>
+        <td>{{ computer.ip }}</td>
+        <td>{{ computer.enabled | computer_status}}</td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="4"><strong>Le tableau ne contient pas de données</strong></td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

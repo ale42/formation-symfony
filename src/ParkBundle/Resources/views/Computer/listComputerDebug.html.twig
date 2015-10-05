@@ -1,0 +1,8 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Debug list computers
+{% endblock %}
+
+{% block body %}{{ dump(list_computer) }}
+{% endblock %}

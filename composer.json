@@ -16,7 +16,11 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "braincrafted/bootstrap-bundle": "~2.1.2",
+        "components/jquery":  "2.1.4",
+        "oyejorge/less.php": "v1.7.0.9",
+        "twbs/bootstrap": "^3.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
