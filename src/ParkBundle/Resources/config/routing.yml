@@ -1,0 +1,10 @@
+hello1:
+    resource: "@ParkBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+hello2:
+    path:      /hello/{name}/{routing}
+    defaults:  { _controller: ParkBundle:Default:indexBis }
+    requirements:
+        routing: yml|annotation|xml|php
