@@ -2,9 +2,11 @@
 
 namespace ParkBundle\Controller;
 
+use ParkBundle\Entity\Computer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 class ComputerController extends Controller
 {
@@ -13,13 +15,13 @@ class ComputerController extends Controller
         return (array(
             0 => array(
                 'id' => 1,
-                'name' => 'oRRRrdinateur 1',
+                'name' => 'ordinateur 1',
                 'ip' => '192.168.0.1',
                 'enabled' => true
             ),
             1 => array(
                 'id' => 2,
-                'name' => 'oRdinateur 2',
+                'name' => 'odinateur 2',
                 'ip' => '192.168.0.2',
                 'enabled' => false
             ),
@@ -56,6 +58,42 @@ class ComputerController extends Controller
      * @Template()
      */
     public function listComputerAction(){
-        return (array("list_computer" => $this->getlistComputer()));
+        return (array("list_computer" => $this->getDoctrine()
+            ->getRepository('ParkBundle:Computer')
+            ->findAll()
+        ));
+//        return (array("list_computer" => $this->getlistComputer()));
+    }
+
+    /**
+     * @Route("/park_computer/test", name="park_computer/test")
+     * @Template()
+     */
+    public function testAction(){
+//        $em = $this->get("Doctrine");
+//        $em = $em->getManager();
+        $em = $this->getDoctrine()->getManager();
+        foreach($this->getlistComputer() as $computer){
+            $newComputer = new Computer();
+            $newComputer->setIp($computer['ip']);
+            $newComputer->setName($computer['name']);
+            $newComputer->setEnabled($computer['enabled']);
+            $em->persist($newComputer);
+        }
+        $em->flush();
+        return new Response('Created product id '.$newComputer->getId());
+    }
+
+    /**
+     * @Route("/park_computer/deleteAll", name="park_computer/deleteAll")
+     * @Template()
+     */
+    public function deleteAllAction(){
+        $em = $this->getDoctrine()->getManager();
+        foreach($this->getDoctrine()->getRepository('ParkBundle:Computer')->findAll() as $computer){
+            $em->remove($computer);
+        }
+        $em->flush();
+        return new Response('Toutes les données ont été supprimées');
     }
 }

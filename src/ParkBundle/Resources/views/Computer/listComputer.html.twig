@@ -18,7 +18,8 @@
 {% for computer in list_computer %}
     <tr>
         <td>{{ computer.id }}</td>
-        <td>{{ computer.name|computer_name }}</td>
+        <td>{{ computer.name}}</td>
+        {#<td>{{ computer.name|computer_name }}</td>#}
         <td>{{ computer.ip }}</td>
         <td>{{ computer.enabled | computer_status}}</td>
     </tr>
