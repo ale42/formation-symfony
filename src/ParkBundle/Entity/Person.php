@@ -36,9 +36,17 @@ class Person
     private $lastname;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="age", type="integer")
+     */
+    private $age;
+
+    /**
      * @ORM\OneToMany(targetEntity="ParkBundle\Entity\Computer", mappedBy="person", cascade={"persist"})
      */
     private $computers;
+
 
     /**
      * Get id
@@ -137,5 +145,30 @@ class Person
     public function getComputers()
     {
         return $this->computers;
+    }
+
+
+    /**
+     * Set age
+     *
+     * @param integer $age
+     *
+     * @return Person
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
+
+        return $this;
+    }
+
+    /**
+     * Get age
+     *
+     * @return integer
+     */
+    public function getAge()
+    {
+        return $this->age;
     }
 }

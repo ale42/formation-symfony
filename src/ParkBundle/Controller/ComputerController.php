@@ -2,204 +2,244 @@
 
 namespace ParkBundle\Controller;
 
-use ParkBundle\Entity\Computer;
-use ParkBundle\Entity\Person;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
+use ParkBundle\Entity\Computer;
+use ParkBundle\Form\ComputerType;
 
+/**
+ * Computer controller.
+ *
+ * @Route("/computer")
+ */
 class ComputerController extends Controller
 {
-    protected function getlistComputer()
+
+    /**
+     * Lists all Computer entities.
+     *
+     * @Route("/", name="computer")
+     * @Method("GET")
+     * @Template()
+     */
+    public function indexAction()
     {
-        return (array(
-            0 => array(
-                'id' => 1,
-                'name' => 'ordinateur 1',
-                'ip' => '192.168.0.1',
-                'enabled' => true,
-                'person' => 1
-            ),
-            1 => array(
-                'id' => 2,
-                'name' => 'odinateur 2',
-                'ip' => '192.168.0.2',
-                'enabled' => false,
-                'person' => 2
-            ),
-            2 => array(
-                'id' => 3,
-                'name' => 'ordinateur 3',
-                'ip' => '192.168.0.3',
-                'enabled' => true,
-                'person' => 3
-            ),
-            3 => array(
-                'id' => 4,
-                'name' => 'ordinateur 4',
-                'ip' => '192.168.0.4',
-                'enabled' => false,
-                'person' => 4
-            ),
-            4 => array(
-                'id' => 5,
-                'name' => 'ordinateur 5',
-                'ip' => '192.168.0.5',
-                'enabled' => true,
-                'person' => 5
-            ),
-            5 => array(
-                'id' => 6,
-                'name' => 'ordinateur 6',
-                'ip' => '192.168.0.6',
-                'enabled' => true,
-                'person' => 6
-            ),
-            6 => array(
-                'id' => 7,
-                'name' => 'ordinateur 7',
-                'ip' => '192.168.0.7',
-                'enabled' => true,
-                'person' => 7
-            ),
-            7 => array(
-                'id' => 8,
-                'name' => 'ordinateur 8',
-                'ip' => '192.168.0.8',
-                'enabled' => true,
-                'person' => 8
-            ),
-            8 => array(
-                'id' => 9,
-                'name' => 'ordinateur 9',
-                'ip' => '192.168.0.9',
-                'enabled' => false,
-                'person' => 4
-            ),
-            9 => array(
-                'id' => 10,
-                'name' => 'ordinateur 10',
-                'ip' => '192.168.0.10',
-                'enabled' => true,
-                'person' => 2
-            ),
-            10 => array(
-                'id' => 11,
-                'name' => 'ordinateur 11',
-                'ip' => '192.168.0.11',
-                'enabled' => false,
-                'person' => 1
-            ),
-            11 => array(
-                'id' => 12,
-                'name' => 'ordinateur 12',
-                'ip' => '192.168.0.12',
-                'enabled' => true,
-                'person' => 3
-            ),
-            12 => array(
-                'id' => 13,
-                'name' => 'ordinateur 13',
-                'ip' => '192.168.0.13',
-                'enabled' => true,
-                'person' => 5
-            )));
+        $entities = $this->get('computer_mangager')->listAllComputer();
+
+        return array(
+            'entities' => $entities,
+        );
     }
-    protected function getlistPerson()
+    /**
+     * Creates a new Computer entity.
+     *
+     * @Route("/", name="computer_create")
+     * @Method("POST")
+     * @Template("ParkBundle:Computer:new.html.twig")
+     */
+    public function createAction(Request $request)
     {
-        return (array(
-            0 => array(
-                'firstname' => 'Alex',
-                'lastname' => 'Andre'
-            ),
-            1 => array(
-                'firstname' => 'Ayme',
-                'lastname' => 'Ric'
-            ),
-            2 => array(
-                'firstname' => 'Guill',
-                'lastname' => 'Aume'
-            ),
-            3 => array(
-                'firstname' => 'Ste',
-                'lastname' => 'Ve'
-            ),
-            4 => array(
-                'firstname' => 'Valé',
-                'lastname' => 'Rie'
-            ),
-            5 => array(
-                'firstname' => 'Syl',
-                'lastname' => 'Vain'
-            ),
-            6 => array(
-                'firstname' => 'John',
-                'lastname' => 'Attan'
-            ),
-            7 => array(
-                'firstname' => 'Pere',
-                'lastname' => 'Noel'
-            ),
-            8 => array(
-                'firstname' => 'Cou',
-                'lastname' => 'Cou'
-            )));
-    }
+        $entity = new Computer();
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
 
-    /**
-     * @Route("/park_computer/debug", name="park_computer/debug")
-     * @Template()
-     */
-    public function listComputerDebugAction(){
-        return (array("list_computer" => $this->getlistComputer()));
-    }
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-    /**
-     * @Route("/park_computer", name="park_computer")
-     * @Template()
-     */
-    public function listComputerAction(){
-        return (array("list_computer" => $this->get('computer_mangager')->listAllComputer()));
-    }
-
-    /**
-     * @Route("/park_computer/test", name="park_computer/test")
-     * @Template()
-     */
-    public function testAction(){
-//        $em = $this->get("Doctrine");
-//        $em = $em->getManager();
-        $em = $this->getDoctrine()->getManager();
-        foreach($this->getlistComputer() as $computer){
-            $newComputer = new Computer();
-            $newComputer->setIp($computer['ip']);
-            $newComputer->setName($computer['name']);
-            $newComputer->setEnabled($computer['enabled']);
-            $em->persist($newComputer);
+            return $this->redirect($this->generateUrl('computer_show', array('id' => $entity->getId())));
         }
-        $em->flush();
-        return new Response('Created product id '.$newComputer->getId());
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
     }
 
     /**
-     * @Route("/park_computer/deleteAll", name="park_computer/deleteAll")
+     * Creates a form to create a Computer entity.
+     *
+     * @param Computer $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCreateForm(Computer $entity)
+    {
+        $form = $this->createForm(new ComputerType(), $entity, array(
+            'action' => $this->generateUrl('computer_create'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Create'));
+
+        return $form;
+    }
+
+    /**
+     * Displays a form to create a new Computer entity.
+     *
+     * @Route("/new", name="computer_new")
+     * @Method("GET")
      * @Template()
      */
-    public function deleteAllAction(){
+    public function newAction()
+    {
+        $entity = new Computer();
+        $form   = $this->createCreateForm($entity);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+    }
+
+    /**
+     * Finds and displays a Computer entity.
+     *
+     * @Route("/{id}", name="computer_show")
+     * @Method("GET")
+     * @Template()
+     */
+    public function showAction($id)
+    {
         $em = $this->getDoctrine()->getManager();
-        foreach($this->get('computer_mangager')->listAllComputer() as $computer){
-            $em->remove($computer);
+
+        $entity = $em->getRepository('ParkBundle:Computer')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Computer entity.');
         }
-        $em->flush();
-        return new Response('Toutes les données ont été supprimées');
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
     }
+
     /**
-     * @Route("park_computer/display",name="park_computer/display")
+     * Displays a form to edit an existing Computer entity.
+     *
+     * @Route("/{id}/edit", name="computer_edit")
+     * @Method("GET")
      * @Template()
      */
-    public function displayComputerOwnerAction(){
-        return (array("list_computer" => $this->get('computer_mangager')->listAllComputer()));
+    public function editAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
 
+        $entity = $em->getRepository('ParkBundle:Computer')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Computer entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+
+    /**
+    * Creates a form to edit a Computer entity.
+    *
+    * @param Computer $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditForm(Computer $entity)
+    {
+        $form = $this->createForm(new ComputerType(), $entity, array(
+            'action' => $this->generateUrl('computer_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
+    /**
+     * Edits an existing Computer entity.
+     *
+     * @Route("/{id}", name="computer_update")
+     * @Method("PUT")
+     * @Template("ParkBundle:Computer:edit.html.twig")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ParkBundle:Computer')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Computer entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('computer_show', array('id' => $id)));
+        }
+
+        return array(
+            'entity'      => $entity,
+            'edit_form'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+    }
+    /**
+     * Deletes a Computer entity.
+     *
+     * @Route("/{id}", name="computer_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('ParkBundle:Computer')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find Computer entity.');
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('computer'));
+    }
+
+    /**
+     * Creates a form to delete a Computer entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('computer_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->getForm()
+        ;
     }
 }
