@@ -137,8 +137,9 @@ class Computer
      *
      * @return Computer
      */
-    public function setPerson(\ParkBundle\Entity\Person $person)
+    public function setPerson(\ParkBundle\Entity\Person $person = null)
     {
+        $person->addComputer($this);
         $this->person = $person;
 
         return $this;

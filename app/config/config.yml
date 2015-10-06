@@ -76,3 +76,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# list of custom services
+services:
+
