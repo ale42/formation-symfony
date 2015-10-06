@@ -1,5 +1,11 @@
+parameters:
+    computer_manager.class: ParkBundle\Services\ComputerManager
+
 services:
     park.twig.computer_status_extension:
         class: ParkBundle\Twig\ComputerExtension
         tags:
             - { name: twig.extension }
+    computer_mangager:
+        class: "%computer_manager.class%"
+        arguments: ["@Doctrine"]

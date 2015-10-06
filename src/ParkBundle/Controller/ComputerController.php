@@ -74,7 +74,7 @@ class ComputerController extends Controller
                 'id' => 9,
                 'name' => 'ordinateur 9',
                 'ip' => '192.168.0.9',
-                'enabled' => true,
+                'enabled' => false,
                 'person' => 4
             ),
             9 => array(
@@ -88,7 +88,7 @@ class ComputerController extends Controller
                 'id' => 11,
                 'name' => 'ordinateur 11',
                 'ip' => '192.168.0.11',
-                'enabled' => true,
+                'enabled' => false,
                 'person' => 1
             ),
             11 => array(
@@ -160,11 +160,7 @@ class ComputerController extends Controller
      * @Template()
      */
     public function listComputerAction(){
-        return (array("list_computer" => $this->getDoctrine()
-            ->getRepository('ParkBundle:Computer')
-            ->findAll()
-        ));
-//        return (array("list_computer" => $this->getlistComputer()));
+        return (array("list_computer" => $this->get('computer_mangager')->listAllComputer()));
     }
 
     /**
@@ -175,19 +171,11 @@ class ComputerController extends Controller
 //        $em = $this->get("Doctrine");
 //        $em = $em->getManager();
         $em = $this->getDoctrine()->getManager();
-//        foreach($this->getlistPerson() as $person){
-//            $newPerson = new Person();
-//            $newPerson->setFirstname($person['firstname']);
-//            $newPerson->setLastname($person['lastname']);
-//            $em->persist($newPerson);
-//        }
-//        $em->flush();
         foreach($this->getlistComputer() as $computer){
             $newComputer = new Computer();
             $newComputer->setIp($computer['ip']);
             $newComputer->setName($computer['name']);
             $newComputer->setEnabled($computer['enabled']);
-//            $newComputer->setPerson($computer['person']);
             $em->persist($newComputer);
         }
         $em->flush();
@@ -200,7 +188,7 @@ class ComputerController extends Controller
      */
     public function deleteAllAction(){
         $em = $this->getDoctrine()->getManager();
-        foreach($this->getDoctrine()->getRepository('ParkBundle:Computer')->findAll() as $computer){
+        foreach($this->get('computer_mangager')->listAllComputer() as $computer){
             $em->remove($computer);
         }
         $em->flush();
@@ -211,10 +199,7 @@ class ComputerController extends Controller
      * @Template()
      */
     public function displayComputerOwnerAction(){
-        return (array("list_computer" => $this->getDoctrine()
-            ->getRepository('ParkBundle:Computer')
-            ->findAll()
-        ));
+        return (array("list_computer" => $this->get('computer_mangager')->listAllComputer()));
 
     }
 }
