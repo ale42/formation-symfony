@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Ip list</h1>
+
+    <table class="records_list table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ip</th>
+                <th>Description</th>
+                <th>Updatedat</th>
+                <th>Computer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('ip_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.ip }}</td>
+                <td>{{ entity.description }}</td>
+                <td>{{ entity.updatedAt|date('String') }}</td>
+                <td>{{ entity.computer.name|default('null') }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('ip_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('ip_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('ip_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
