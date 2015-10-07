@@ -27,7 +27,7 @@ class ComputerController extends Controller
      */
     public function indexAction()
     {
-        $entities = $this->get('computer_mangager')->listAllComputer();
+        $entities = $this->get('park.computer_manager')->listAllComputer();
 
         return array(
             'entities' => $entities,

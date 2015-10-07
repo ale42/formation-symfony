@@ -29,9 +29,15 @@ class Computer
     private $name;
 
     /**
+     * On associe a un ordinateur une IP et pas une IP a un pc
+     * On pourra donc faire this->getComputer()->getIp()
+     *
+     * Sauf si on rajoute le même code dans l'entity IP (ce qui est fait une relation bilatérale)
+     *
      * @var string
      *
-     * @ORM\Column(name="ip", type="string", length=15)
+     * @ORM\OneToOne(targetEntity="ParkBundle\Entity\Ip")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ip;
 
@@ -83,30 +89,6 @@ class Computer
     }
 
     /**
-     * Set ip
-     *
-     * @param string $ip
-     *
-     * @return Computer
-     */
-    public function setIp($ip)
-    {
-        $this->ip = $ip;
-
-        return $this;
-    }
-
-    /**
-     * Get ip
-     *
-     * @return string
-     */
-    public function getIp()
-    {
-        return $this->ip;
-    }
-
-    /**
      * Set enabled
      *
      * @param boolean $enabled
@@ -153,5 +135,30 @@ class Computer
     public function getPerson()
     {
         return $this->person;
+    }
+
+    /**
+     * Set ip
+     *
+     * @param \ParkBundle\Entity\Ip $ip
+     *
+     * @return Computer
+     */
+    public function setIp(\ParkBundle\Entity\Ip $ip = null)
+    {
+        $this->ip = $ip;
+        $ip->setIp($this);
+
+        return $this;
+    }
+
+    /**
+     * Get ip
+     *
+     * @return \ParkBundle\Entity\Ip
+     */
+    public function getIp()
+    {
+        return $this->ip;
     }
 }

@@ -7,7 +7,7 @@ services:
         class: ParkBundle\Twig\ComputerExtension
         tags:
             - { name: twig.extension }
-    park.computer_mangager:
+    park.computer_manager:
         class: "%computer_manager.class%"
         arguments: ["@Doctrine"]
 

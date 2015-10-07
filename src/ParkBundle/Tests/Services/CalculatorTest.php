@@ -10,6 +10,6 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $calc = new Calculator();
         $result = $calc->sumInteger(15, 20);
 
-        $this->assertEquals(35, $result);
+        $this->assertEquals(36, $result);
     }
 }

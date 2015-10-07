@@ -52,4 +52,27 @@ class ComputerControllerTest extends WebTestCase
     }
 
     */
+    public function testcalculatorAction(){
+
+        $var1 = 10;
+        $var2 = 22;
+
+        $sum = $var1+$var2;
+
+        // Create a new client to browse the application
+        $client = static::createClient();
+
+        // Create a new entry in the database
+        $crawler = $client->request('GET', '/park/computer/calculator/'.$var1.'/'.$var2);
+        $this->assertEquals(
+            200,
+            $client->getResponse()->getStatusCode(),
+            "Unexpected HTTP status code for GET /park/computer/calculator/{var1}/{var2}");
+
+        $this->assertEquals(
+            $sum,
+            $crawler->filter('div.result')->text(),
+            'Le resultat n est pas celui attendu'
+        );
+    }
 }
