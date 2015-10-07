@@ -242,4 +242,20 @@ class ComputerController extends Controller
             ->getForm()
         ;
     }
+
+
+    /**
+     * Finds and displays a Computer entity.
+     *
+     * @Route("/calculator/{var1}/{var2}", name="calculator_sum", requirements={
+     *     "var1": "\d+",
+     *     "var2": "\d+"
+     * })
+     * @Template()
+     */
+    public function calculatorAction($var1, $var2)
+    {
+        $sum = $this->get('park.calculator')->sumInteger($var1, $var2);
+        return array('sum' => $sum);
+    }
 }
