@@ -16,8 +16,8 @@ class VinsType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('r‚gion')
-            ->add('quantit‚')
+            ->add('region')
+            ->add('quantite')
             ->add('type')
         ;
     }

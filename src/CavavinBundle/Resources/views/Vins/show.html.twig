@@ -3,12 +3,8 @@
 {% block body -%}
     <h1>Vins</h1>
 
-    <table class="record_properties">
+    <table class="record_properties table table-striped">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
             <tr>
                 <th>Nom</th>
                 <td>{{ entity.nom }}</td>
@@ -28,17 +24,15 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('vins') }}">
-            Back to the list
+    <ul class="record_actions">
+        <a class="btn btn-sm btn-primary" href="{{ path('vins') }}">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Retour à la liste
         </a>
-    </li>
-    <li>
-        <a href="{{ path('vins_edit', { 'id': entity.id }) }}">
-            Edit
+        <a class="btn btn-sm btn-warning" href="{{ path('vins_edit', { 'id': entity.id }) }}">
+            <span class="glyphicon glyphicon-pencil"></span>
+            Editer
         </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        {{ form(delete_form) }}
+    </ul>
 {% endblock %}

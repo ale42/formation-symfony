@@ -3,10 +3,9 @@
 {% block body -%}
     <h1>Vins list</h1>
 
-    <table class="records_list">
+    <table class="records_list table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Region</th>
                 <th>Quantite</th>
@@ -17,31 +16,20 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('vins_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.nom }}</td>
+                <td><a href="{{ path('vins_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
                 <td>{{ entity.region }}</td>
                 <td>{{ entity.quantite }}</td>
                 <td>{{ entity.type }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('vins_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('vins_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <a class="btn btn-xs btn-primary" href="{{ path('vins_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span>show</a>
+                    <a class="btn btn-xs btn-warning" href="{{ path('vins_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span>edit</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('vins_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
+    <a class="btn btn-sm btn-success" href="{{ path('vins_new') }}">
+        Créer un nouveau vin
+    </a>
     {% endblock %}
+
