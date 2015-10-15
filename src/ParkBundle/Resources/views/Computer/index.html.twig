@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Computer list</h1>
+
+    <table class="records_list table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Ip</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('computer_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.ip.ip|default('Null') }}</td>
+                <td>{{ entity.enabled|computer_status }}</td>
+                <td>
+                    <a class="btn btn-xs btn-primary" href="{{ path('computer_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span>show</a>
+                    <a class="btn btn-xs btn-warning" href="{{ path('computer_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span>edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-sm btn-success" href="{{ path('computer_new') }}">
+        Create a new entry
+    </a>
+    {% endblock %}

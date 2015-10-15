@@ -1,0 +1,13 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - List computers
+{% endblock %}
+
+{% block body %}
+    {% for computer in list_computer %}
+        {% if computer.person is not null %}
+            <p>L'ordinateur {{ computer.name }} appartient à {{ computer.person.firstname ~ ' ' ~ computer.person.lastname }}</p>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

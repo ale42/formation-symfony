@@ -1,5 +1,15 @@
+parameters:
+    computer_manager.class: ParkBundle\Services\ComputerManager
+    calculator.class: ParkBundle\Services\Calculator
+
 services:
     park.twig.computer_status_extension:
         class: ParkBundle\Twig\ComputerExtension
         tags:
             - { name: twig.extension }
+    park.computer_manager:
+        class: "%computer_manager.class%"
+        arguments: ["@Doctrine"]
+
+    park.calculator:
+        class: "%calculator.class%"

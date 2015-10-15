@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Vins</h1>
+
+    <table class="record_properties table table-striped">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ entity.nom }}</td>
+            </tr>
+            <tr>
+                <th>Region</th>
+                <td>{{ entity.region }}</td>
+            </tr>
+            <tr>
+                <th>Quantite</th>
+                <td>{{ entity.quantite }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ entity.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <a class="btn btn-sm btn-primary" href="{{ path('vins') }}">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Retour à la liste
+        </a>
+        <a class="btn btn-sm btn-warning" href="{{ path('vins_edit', { 'id': entity.id }) }}">
+            <span class="glyphicon glyphicon-pencil"></span>
+            Editer
+        </a>
+        {{ form(delete_form) }}
+    </ul>
+{% endblock %}

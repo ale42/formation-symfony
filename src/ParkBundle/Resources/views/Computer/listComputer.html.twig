@@ -13,13 +13,21 @@
         <th>Id</th>
         <th>Name</th>
         <th>IP</th>
+        <th>Person</th>
         <th>Enabled</th>
+        <th>Actions</th>
     </tr>
 {% for computer in list_computer %}
     <tr>
         <td>{{ computer.id }}</td>
-        <td>{{ computer.name|computer_name }}</td>
+        <td>{{ computer.name}}</td>
+        {#<td>{{ computer.name|computer_name }}</td>#}
         <td>{{ computer.ip }}</td>
+        {% if computer.person is not null %}
+            <td>{{ computer.person.firstname ~ ' ' ~ computer.person.lastname }}</td>
+        {% else %}
+            <td></td>
+        {% endif %}
         <td>{{ computer.enabled | computer_status}}</td>
     </tr>
 {% else %}

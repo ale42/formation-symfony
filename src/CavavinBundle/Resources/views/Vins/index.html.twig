@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Vins list</h1>
+
+    <table class="records_list table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Region</th>
+                <th>Quantite</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('vins_show', { 'id': entity.id }) }}">{{ entity.nom }}</a></td>
+                <td>{{ entity.region }}</td>
+                <td>{{ entity.quantite }}</td>
+                <td>{{ entity.type }}</td>
+                <td>
+                    <a class="btn btn-xs btn-primary" href="{{ path('vins_show', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-eye-open"></span>show</a>
+                    <a class="btn btn-xs btn-warning" href="{{ path('vins_edit', { 'id': entity.id }) }}"><span class="glyphicon glyphicon-pencil"></span>edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-sm btn-success" href="{{ path('vins_new') }}">
+        Créer un nouveau vin
+    </a>
+    {% endblock %}
+
