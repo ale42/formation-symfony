@@ -49,7 +49,7 @@ class Computer
     private $enabled;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ParkBundle\Entity\Person", inversedBy="computers")
+     * @ORM\ManyToOne(targetEntity="ParkBundle\Entity\Person", inversedBy="computers", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $person;
@@ -160,5 +160,15 @@ class Computer
     public function getIp()
     {
         return $this->ip;
+    }
+
+    /**
+     * Transform to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
     }
 }

@@ -1,0 +1,9 @@
+parameters:
+    app.security.class: AppBundle\Services\UserSecurity
+
+services:
+    app.security.user:
+        class: '%app.security.class%'
+        arguments: [@security.encoder_factory]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

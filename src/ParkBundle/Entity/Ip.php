@@ -156,4 +156,14 @@ class Ip
     {
         return $this->computer;
     }
+
+    /**
+     * Transform to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
 }

@@ -1,0 +1,30 @@
+AppBundle\Entity\User:
+    superadmin:
+        username: superadmin
+        name: <lastName()>
+        firstname: <firstName()>
+        plainPassword: superadmin
+        roles: ["ROLE_SUPER_ADMIN"]
+        enabled: 1
+    admin:
+        username: admin
+        name: <lastName()>
+        firstname: <firstName()>
+        plainPassword: admin
+        roles: ["ROLE_ADMIN"]
+        enabled: 1
+    moderator:
+        username: moderator
+        name: <lastName()>
+        firstname: <firstName()>
+        plainPassword: moderator
+        roles: ["ROLE_MODERATOR"]
+        enabled: 1
+    user{1..4}:
+        username: <username()>
+        name: <lastName()>
+        firstname: <firstName()>
+        plainPassword: <username()>
+        salt: "sdfgrtgrtgrtehtyhuyjuyjuy1224552"
+        roles: ["ROLE_USER"]
+        enabled: <numberBetween(0, 1)>

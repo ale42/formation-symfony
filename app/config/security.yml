@@ -2,13 +2,24 @@
 # http://symfony.com/doc/current/book/security.html
 security:
 
+    role_hierarchy:
+        ROLE_MODERATOR: [ROLE_USER]
+        ROLE_ADMIN: [ROLE_MODERATOR]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
             memory:
                 users:
                     user: { password: user, roles: ['ROLE_USER']}
+                    moderator: { password: moderateur, roles: ['ROLE_MODERATOR']}
                     admin: { password: admin, roles: ['ROLE_ADMIN']}
+                    superman: { password: superman, roles: ['ROLE_SUPER_ADMIN']}
+
+        user_db_provider:
+            entity:     # Possible également de passer un service mais plus complexe
+                class: AppBundle:User
+                property: username    # champ qui correspond au login
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -20,7 +31,7 @@ security:
             pattern: ^/
             anonymous: true
 #            http_basic: true
-            provider: in_memory
+            provider: user_db_provider
             form_login:
                 login_path: security_login
                 check_path: security_login_check
@@ -37,8 +48,12 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
+#        - { path: ^/park/computer/^/edit, roles: ROLE_MODERATOR}   #Doesn't work with variable
+        - { path: ^/park/computer/new, roles: ROLE_ADMIN}
+        - { path: ^/park/computer/removeAll, roles: ROLE_SUPER_ADMIN}
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED}
 
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        AppBundle\Entity\User: sha512
