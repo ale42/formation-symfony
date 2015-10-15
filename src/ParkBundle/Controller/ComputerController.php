@@ -19,7 +19,7 @@ class ComputerController extends Controller
             ),
             1 => array(
                 'id' => 2,
-                'name' => 'oRdinateur 2',
+                'name' => 'Ordinateur 2',
                 'ip' => '192.168.0.2',
                 'enabled' => false
             ),
