@@ -9,13 +9,6 @@ security:
                 users:
                     user: { password: user, roles: ['ROLE_USER']}
                     admin: { password: admin, roles: ['ROLE_ADMIN']}
-    form_login:
-        login_path: security_login
-        check_path: security_login_check
-    logout:
-        path:   security_logout
-        target: /
-
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -24,7 +17,17 @@ security:
             security: false
 
         main:
-            anonymous: ~
+            pattern: ^/
+            anonymous: true
+#            http_basic: true
+            provider: in_memory
+            form_login:
+                login_path: security_login
+                check_path: security_login_check
+                default_target_path: /
+            logout:
+                path: security_logout
+                target: /
             # activate different ways to authenticate
 
             # http_basic: ~
@@ -32,3 +35,10 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED}
+
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
